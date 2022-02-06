@@ -132,12 +132,12 @@ static void pinnacle_gpio_cb(const struct device *port, struct gpio_callback *cb
     struct pinnacle_data *data = CONTAINER_OF(cb, struct pinnacle_data, gpio_cb);
     struct device *dev = data->dev;
     pinnacle_write(dev, PINNACLE_STATUS1, 0);   // Clear SW_DR
-    set_int(dev, false);
 #if defined(CONFIG_PINNACLE_TRIGGER_OWN_THREAD)
     k_sem_give(&data->gpio_sem);
 #elif defined(CONFIG_PINNACLE_TRIGGER_GLOBAL_THREAD)
     k_work_submit(&data->work);
 #endif
+    set_int(dev, false);
 }
 #endif
 
