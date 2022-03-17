@@ -130,7 +130,7 @@ static void pinnacle_work_cb(struct k_work *work) {
 
 static void pinnacle_gpio_cb(const struct device *port, struct gpio_callback *cb, uint32_t pins) {
     struct pinnacle_data *data = CONTAINER_OF(cb, struct pinnacle_data, gpio_cb);
-    struct device *dev = data->dev;
+    const struct device *dev = data->dev;
     pinnacle_write(dev, PINNACLE_STATUS1, 0);   // Clear SW_DR
 #if defined(CONFIG_PINNACLE_TRIGGER_OWN_THREAD)
     k_sem_give(&data->gpio_sem);
@@ -225,4 +225,4 @@ static const struct pinnacle_config pinnacle_config = {
 #endif
 };
 
-DEVICE_DT_INST_DEFINE(0, pinnacle_init, device_pm_control_nop, &pinnacle_data, &pinnacle_config, POST_KERNEL, CONFIG_SENSOR_INIT_PRIORITY, &pinnacle_driver_api);
+DEVICE_DT_INST_DEFINE(0, pinnacle_init, NULL, &pinnacle_data, &pinnacle_config, POST_KERNEL, CONFIG_SENSOR_INIT_PRIORITY, &pinnacle_driver_api);
